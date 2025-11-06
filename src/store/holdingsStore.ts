@@ -18,9 +18,11 @@ export const useHoldingsStore = create<HoldingsState>()(
       holdings: [],
 
       addHolding: (holding) => {
+        const incoming: Partial<Holding> = holding as Partial<Holding>;
         const newHolding: Holding = {
           ...holding,
           id: crypto.randomUUID(),
+          buyDate: incoming.buyDate ?? new Date().toISOString(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         };

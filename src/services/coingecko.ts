@@ -50,7 +50,7 @@ export const coingeckoApi = {
     const data = await fetchApi<{ coins: CoinSearchResult[] }>(
       `/search?query=${encodeURIComponent(query)}`
     );
-    return data.coins.slice(0, 10); // Limit to 10 results
+    return data.coins;
   },
 
   /**
