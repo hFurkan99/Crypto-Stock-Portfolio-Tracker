@@ -105,8 +105,10 @@ export default function Holdings() {
         <h1 className="text-xl sm:text-2xl font-bold">{t("holdings.title")}</h1>
 
         {/* Balance Display - Always visible on mobile */}
-        <div className="px-3 py-2 sm:px-4 sm:py-2 border rounded bg-white dark:bg-gray-800">
-          <div className="text-xs text-gray-500">{t("common.balance")}</div>
+        <div className="px-3 py-2 sm:px-4 sm:py-2 border dark:border-gray-700 rounded bg-white dark:bg-gray-800">
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            {t("common.balance")}
+          </div>
           <div className="font-medium text-sm sm:text-base">
             {formatCurrency(balance, {
               symbol: "$",
@@ -169,7 +171,9 @@ export default function Holdings() {
       )}
 
       {holdings.length === 0 ? (
-        <div className="text-sm text-gray-600">No holdings yet.</div>
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          No holdings yet.
+        </div>
       ) : (
         <HoldingsTable
           holdings={holdings}

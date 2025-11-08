@@ -197,8 +197,8 @@ export default function Dashboard() {
           className="flex-1"
         />
 
-        <div className="w-full sm:w-56 p-3 sm:p-4 border rounded bg-white text-center">
-          <div className="text-xs text-gray-500">
+        <div className="w-full sm:w-56 p-3 sm:p-4 border rounded bg-white dark:bg-gray-800 dark:border-gray-700 text-center">
+          <div className="text-xs text-gray-500 dark:text-gray-400">
             {t("dashboard.accountSnapshot.cashBalance")}
           </div>
           <div className="mt-1 text-lg sm:text-xl font-semibold">

@@ -91,10 +91,20 @@ export function NavigationMenuDemo() {
           aria-label="Language"
           defaultValue={lang}
           onChange={(e) => i18n.changeLanguage(e.target.value)}
-          className="bg-transparent p-1 rounded border border-gray-200 dark:border-gray-700 text-sm"
+          className="bg-transparent dark:bg-gray-800 p-1 rounded border border-gray-200 dark:border-gray-700 text-sm dark:text-gray-200"
         >
-          <option value="tr">{t("header.language.tr")}</option>
-          <option value="en">{t("header.language.en")}</option>
+          <option
+            value="tr"
+            className="bg-white dark:bg-gray-800 text-black dark:text-gray-200"
+          >
+            {t("header.language.tr")}
+          </option>
+          <option
+            value="en"
+            className="bg-white dark:bg-gray-800 text-black dark:text-gray-200"
+          >
+            {t("header.language.en")}
+          </option>
         </select>
       </div>
 

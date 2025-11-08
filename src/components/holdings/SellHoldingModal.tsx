@@ -92,14 +92,14 @@ export default function SellHoldingModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
-      <div className="relative w-full max-w-md bg-white rounded shadow-lg p-4 sm:p-6">
+      <div className="relative w-full max-w-md bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded shadow-lg p-4 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-base sm:text-lg font-medium truncate">
             {t("modals.sellHolding.title", `${target.name}`)}
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-500 text-xl sm:text-2xl ml-2 shrink-0"
+            className="text-gray-500 dark:text-gray-400 text-xl sm:text-2xl ml-2 shrink-0 hover:text-gray-700 dark:hover:text-gray-200"
           >
             ✕
           </button>
@@ -107,23 +107,23 @@ export default function SellHoldingModal({
 
         <div className="space-y-4">
           <div>
-            <div className="text-xs sm:text-sm text-gray-700 mb-1">
+            <div className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-1">
               {t("modals.sellHolding.totalOwned")}
             </div>
-            <div className="px-3 py-2 border rounded text-sm sm:text-base">
+            <div className="px-3 py-2 border dark:border-gray-600 rounded text-sm sm:text-base dark:bg-gray-700">
               {target.totalAmount} {target.symbol.toUpperCase()}
             </div>
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1">
+            <label className="block text-xs sm:text-sm font-medium mb-1 dark:text-gray-300">
               {t("modals.sellHolding.amountToSell")}
             </label>
             <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
               <input
                 type="number"
                 inputMode="decimal"
-                className="flex-1 border rounded px-3 py-2 text-sm sm:text-base"
+                className="flex-1 border dark:border-gray-600 rounded px-3 py-2 text-sm sm:text-base dark:bg-gray-700 dark:text-white"
                 value={amountStr}
                 min={1}
                 step={1}
@@ -157,7 +157,7 @@ export default function SellHoldingModal({
               />
               <button
                 type="button"
-                className="px-3 py-2 rounded bg-red-800 text-white text-xs sm:text-sm whitespace-nowrap"
+                className="px-3 py-2 rounded bg-red-800 text-white text-xs sm:text-sm whitespace-nowrap hover:bg-red-900"
                 onClick={() => setAmountStr(String(target.totalAmount))}
                 title={t("modals.sellHolding.setToTotalTitle")}
               >
@@ -165,7 +165,9 @@ export default function SellHoldingModal({
               </button>
             </div>
             {error && (
-              <p className="text-red-600 text-xs sm:text-sm">{error}</p>
+              <p className="text-red-600 dark:text-red-400 text-xs sm:text-sm">
+                {error}
+              </p>
             )}
           </div>
 
@@ -173,14 +175,14 @@ export default function SellHoldingModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded border text-sm sm:text-base"
+              className="px-4 py-2 rounded border dark:border-gray-600 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               {t("common.cancel")}
             </button>
             <button
               type="button"
               onClick={handleSell}
-              className="px-4 py-2 rounded bg-red-600 text-white text-sm sm:text-base"
+              className="px-4 py-2 rounded bg-red-600 text-white text-sm sm:text-base hover:bg-red-700"
             >
               {t("modals.sellHolding.confirm")}
             </button>

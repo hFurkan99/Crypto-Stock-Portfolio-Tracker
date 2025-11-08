@@ -20,14 +20,14 @@ export default function CreditModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
-      <div className="relative w-full max-w-md bg-white rounded shadow-lg p-4 sm:p-6">
+      <div className="relative w-full max-w-md bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded shadow-lg p-4 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-base sm:text-lg font-medium">
             {t("modals.credit.title")}
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-500 text-xl sm:text-2xl"
+            className="text-gray-500 dark:text-gray-400 text-xl sm:text-2xl hover:text-gray-700 dark:hover:text-gray-200"
           >
             ✕
           </button>
@@ -35,14 +35,14 @@ export default function CreditModal({
 
         <div className="space-y-4">
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1">
+            <label className="block text-xs sm:text-sm font-medium mb-1 dark:text-gray-300">
               {t("modals.credit.amountLabel")}
             </label>
             <input
               type="number"
               step="any"
               min={0}
-              className="w-full border rounded px-3 py-2 text-sm sm:text-base"
+              className="w-full border dark:border-gray-600 rounded px-3 py-2 text-sm sm:text-base dark:bg-gray-700 dark:text-white"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
@@ -52,7 +52,7 @@ export default function CreditModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded border text-sm sm:text-base"
+              className="px-4 py-2 rounded border dark:border-gray-600 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               {t("common.cancel")}
             </button>
@@ -74,7 +74,7 @@ export default function CreditModal({
                   );
                 }
               }}
-              className="px-4 py-2 rounded bg-green-600 text-white text-sm sm:text-base"
+              className="px-4 py-2 rounded bg-green-600 text-white text-sm sm:text-base hover:bg-green-700"
             >
               {t("modals.credit.add")}
             </button>

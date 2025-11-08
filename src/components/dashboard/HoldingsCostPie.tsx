@@ -66,17 +66,19 @@ export default function HoldingsCostPie({ holdings }: { holdings: Holding[] }) {
 
   if (data.length === 0) {
     return (
-      <div className="border rounded p-3 sm:p-6 h-64 sm:h-96 flex flex-col justify-center items-center">
+      <div className="border dark:border-gray-700 rounded p-3 sm:p-6 h-64 sm:h-96 flex flex-col justify-center items-center dark:bg-gray-800">
         <div className="font-medium text-base sm:text-lg mb-2">
           Maliyet Dağılımı
         </div>
-        <div className="text-xs sm:text-sm text-gray-500">No holdings</div>
+        <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+          No holdings
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="border rounded p-3 sm:p-6 h-auto sm:h-96 bg-white flex flex-col">
+    <div className="border dark:border-gray-700 rounded p-3 sm:p-6 h-auto sm:h-96 bg-white dark:bg-gray-800 flex flex-col">
       <div className="font-medium text-base sm:text-lg mb-3 sm:mb-4">
         Maliyet Dağılımı
       </div>
@@ -136,14 +138,14 @@ export default function HoldingsCostPie({ holdings }: { holdings: Holding[] }) {
                     />
                     <div className="text-xs sm:text-sm truncate">{d.name}</div>
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-600 text-right shrink-0">
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-right shrink-0">
                     <div>
                       {formatCurrency(Number(d.value), {
                         symbol: "$",
                         maximumFractionDigits: 10,
                       })}
                     </div>
-                    <div className="text-xs text-gray-400">
+                    <div className="text-xs text-gray-400 dark:text-gray-500">
                       {pct.toFixed(2)}%
                     </div>
                   </div>

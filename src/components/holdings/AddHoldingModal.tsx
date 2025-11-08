@@ -152,14 +152,14 @@ export default function AddHoldingModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
-      <div className="relative w-full max-w-md bg-white rounded shadow-lg p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-md bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded shadow-lg p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-base sm:text-lg font-medium">
             {t("modals.addHolding.title")}
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-500 text-xl sm:text-2xl"
+            className="text-gray-500 dark:text-gray-400 text-xl sm:text-2xl hover:text-gray-700 dark:hover:text-gray-200"
           >
             ✕
           </button>
@@ -167,23 +167,25 @@ export default function AddHoldingModal({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1">
+            <label className="block text-xs sm:text-sm font-medium mb-1 dark:text-gray-300">
               {t("modals.addHolding.search")}
             </label>
             <input
-              className="w-full border rounded px-3 py-2 text-sm sm:text-base"
+              className="w-full border dark:border-gray-600 rounded px-3 py-2 text-sm sm:text-base dark:bg-gray-700 dark:text-white"
               placeholder={t("modals.addHolding.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
 
             {results.length > 0 && (
-              <ul className="max-h-40 overflow-auto mt-2 border rounded">
+              <ul className="max-h-40 overflow-auto mt-2 border dark:border-gray-600 rounded dark:bg-gray-700">
                 {results.map((c) => (
                   <li
                     key={c.id}
-                    className={`px-3 py-2 cursor-pointer hover:bg-gray-100 flex justify-between items-center ${
-                      selected?.id === c.id ? "bg-gray-100" : ""
+                    className={`px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 flex justify-between items-center ${
+                      selected?.id === c.id
+                        ? "bg-gray-100 dark:bg-gray-600"
+                        : ""
                     }`}
                     onClick={() => handleSelect(c)}
                   >
@@ -191,11 +193,11 @@ export default function AddHoldingModal({
                       <div className="font-medium text-sm truncate">
                         {c.name}
                       </div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-xs text-gray-600 dark:text-gray-400">
                         {c.symbol}
                       </div>
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-500 shrink-0">
+                    <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 shrink-0">
                       {t("common.select")}
                     </div>
                   </li>
@@ -205,10 +207,10 @@ export default function AddHoldingModal({
           </div>
 
           <div>
-            <div className="text-xs sm:text-sm text-gray-700 mb-1">
+            <div className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-1">
               {t("common.selected")}
             </div>
-            <div className="px-3 py-2 border rounded text-sm">
+            <div className="px-3 py-2 border dark:border-gray-600 rounded text-sm dark:bg-gray-700">
               {selected
                 ? `${selected.name} (${selected.symbol})`
                 : t("common.none")}
@@ -216,29 +218,29 @@ export default function AddHoldingModal({
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1">
+            <label className="block text-xs sm:text-sm font-medium mb-1 dark:text-gray-300">
               {t("common.amount")}
             </label>
             <input
               type="number"
               step={1}
               min={1}
-              className="w-full border rounded px-3 py-2 text-sm sm:text-base"
+              className="w-full border dark:border-gray-600 rounded px-3 py-2 text-sm sm:text-base dark:bg-gray-700 dark:text-white"
               {...register("amount", { valueAsNumber: true })}
             />
             {errors.amount && (
-              <p className="text-red-600 text-xs sm:text-sm">
+              <p className="text-red-600 dark:text-red-400 text-xs sm:text-sm">
                 {String(errors.amount.message)}
               </p>
             )}
           </div>
 
           <div>
-            <div className="text-xs sm:text-sm font-medium mb-2">
+            <div className="text-xs sm:text-sm font-medium mb-2 dark:text-gray-300">
               {t("common.price")}
             </div>
-            <div className="border rounded p-3">
-              <div className="text-xs sm:text-sm">
+            <div className="border dark:border-gray-600 rounded p-3 dark:bg-gray-700">
+              <div className="text-xs sm:text-sm dark:text-gray-300">
                 {t("modals.addHolding.unit")}:{" "}
                 {priceQuery?.isLoading
                   ? "..."
@@ -263,14 +265,14 @@ export default function AddHoldingModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded border text-sm sm:text-base"
+              className="px-4 py-2 rounded border dark:border-gray-600 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               {t("common.cancel")}
             </button>
             <button
               type="submit"
               disabled={isSubmitting || unitPrice == null || !selected}
-              className="px-4 py-2 rounded bg-blue-600 text-white text-sm sm:text-base disabled:opacity-50"
+              className="px-4 py-2 rounded bg-blue-600 text-white text-sm sm:text-base disabled:opacity-50 hover:bg-blue-700"
             >
               {t("modals.addHolding.add")}
             </button>

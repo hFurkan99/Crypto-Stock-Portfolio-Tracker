@@ -76,11 +76,11 @@ export default function Watchlist() {
                   <div className="font-medium text-sm sm:text-base">
                     {c.name}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
                     {c.symbol.toUpperCase()}
                   </div>
                 </div>
-                <div className="text-xs sm:text-sm text-blue-600">
+                <div className="text-xs sm:text-sm text-blue-600 dark:text-blue-400">
                   {t("modals.addHolding.add")}
                 </div>
               </li>
@@ -91,14 +91,16 @@ export default function Watchlist() {
 
       <div className="space-y-3">
         {watchlist.length === 0 ? (
-          <div className="text-sm text-gray-600">{t("watchlist.noCoins")}</div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            {t("watchlist.noCoins")}
+          </div>
         ) : pricesQuery.data && pricesQuery.data.length > 0 ? (
           pricesQuery.data.map((p) => {
             const item = watchlist.find((w) => w.coinId === p.id)!;
             return (
               <div
                 key={item.id}
-                className="border rounded p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                className="border dark:border-gray-700 rounded p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 dark:bg-gray-800/30"
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   {p.image && (
@@ -117,7 +119,7 @@ export default function Watchlist() {
                     <div className="font-medium text-sm sm:text-base truncate">
                       {item.name} ({item.symbol.toUpperCase()})
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600 mt-1">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                       {t("common.price")}{" "}
                       {formatCurrency(p.current_price, {
                         symbol: "$",
@@ -145,7 +147,7 @@ export default function Watchlist() {
                     {t("common.buy")}
                   </button>
                   <button
-                    className="flex-1 sm:flex-initial px-3 py-1 rounded border text-xs sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                    className="flex-1 sm:flex-initial px-3 py-1 rounded border dark:border-gray-600 text-xs sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
                     onClick={() => removeFromWatchlist(item.id)}
                   >
                     {t("common.remove")}
@@ -159,13 +161,13 @@ export default function Watchlist() {
           watchlist.map((w) => (
             <div
               key={w.id}
-              className="border rounded p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+              className="border dark:border-gray-700 rounded p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 dark:bg-gray-800/30"
             >
               <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm sm:text-base truncate">
+                <div className="font-medium text-sm truncate">
                   {w.name} ({w.symbol.toUpperCase()})
                 </div>
-                <div className="text-xs sm:text-sm text-gray-600 mt-1">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                   {t("common.price")} ...
                 </div>
               </div>
@@ -184,7 +186,7 @@ export default function Watchlist() {
                   {t("common.buy")}
                 </button>
                 <button
-                  className="flex-1 sm:flex-initial px-3 py-1 rounded border text-xs sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="flex-1 sm:flex-initial px-3 py-1 rounded border dark:border-gray-600 text-xs sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
                   onClick={() => removeFromWatchlist(w.id)}
                 >
                   {t("common.remove")}

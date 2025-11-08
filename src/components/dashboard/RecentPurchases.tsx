@@ -14,21 +14,21 @@ export default function RecentPurchases({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="border rounded p-3 sm:p-4">
+    <div className="border dark:border-gray-700 rounded p-3 sm:p-4 dark:bg-gray-800/50">
       <div className="flex items-center justify-between mb-3">
         <div className="font-medium text-sm sm:text-base">
           {t("common.recentPurchases")}
         </div>
         <button
           onClick={() => onViewAll?.()}
-          className="text-xs sm:text-sm text-blue-600"
+          className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:underline"
         >
           {t("common.viewAll")}
         </button>
       </div>
 
       {recentPurchases.length === 0 ? (
-        <div className="text-xs sm:text-sm text-gray-500">
+        <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
           {t("common.noRecentPurchases")}
         </div>
       ) : (
@@ -48,7 +48,7 @@ export default function RecentPurchases({
                   <div className="font-medium text-sm truncate">
                     {r.name} ({r.symbol.toUpperCase()})
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-600 truncate">
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">
                     {r.amount} @{" "}
                     {formatCurrency(r.buyPrice, {
                       symbol: "$",
@@ -65,7 +65,9 @@ export default function RecentPurchases({
                 </div>
                 <div
                   className={`text-xs sm:text-sm shrink-0 ${
-                    pl >= 0 ? "text-green-600" : "text-red-600"
+                    pl >= 0
+                      ? "text-green-600 dark:text-green-400"
+                      : "text-red-600 dark:text-red-400"
                   }`}
                 >
                   {pl >= 0 ? "+" : "-"}

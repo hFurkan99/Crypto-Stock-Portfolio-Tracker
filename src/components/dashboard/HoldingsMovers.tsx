@@ -78,7 +78,7 @@ export default function HoldingsMovers({
     .slice(0, 5);
 
   return (
-    <div className="border rounded p-3 sm:p-4">
+    <div className="border dark:border-gray-700 rounded p-3 sm:p-4 dark:bg-gray-800/50">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
         <div className="font-medium text-sm sm:text-base">
           {t("dashboard.holdingsMovers")} ({period})
@@ -87,7 +87,9 @@ export default function HoldingsMovers({
           <button
             onClick={() => setPeriod("1d")}
             className={`px-2 py-1 rounded text-xs sm:text-sm ${
-              period === "1d" ? "bg-gray-200" : ""
+              period === "1d"
+                ? "bg-gray-200 dark:bg-gray-700"
+                : "hover:bg-gray-100 dark:hover:bg-gray-700"
             }`}
           >
             1d
@@ -95,7 +97,9 @@ export default function HoldingsMovers({
           <button
             onClick={() => setPeriod("7d")}
             className={`px-2 py-1 rounded text-xs sm:text-sm ${
-              period === "7d" ? "bg-gray-200" : ""
+              period === "7d"
+                ? "bg-gray-200 dark:bg-gray-700"
+                : "hover:bg-gray-100 dark:hover:bg-gray-700"
             }`}
           >
             7d
@@ -103,7 +107,9 @@ export default function HoldingsMovers({
           <button
             onClick={() => setPeriod("30d")}
             className={`px-2 py-1 rounded text-xs sm:text-sm ${
-              period === "30d" ? "bg-gray-200" : ""
+              period === "30d"
+                ? "bg-gray-200 dark:bg-gray-700"
+                : "hover:bg-gray-100 dark:hover:bg-gray-700"
             }`}
           >
             30d
@@ -117,7 +123,7 @@ export default function HoldingsMovers({
             {t("dashboard.holdingsMoversTopProfit")}
           </div>
           {gainers.length === 0 ? (
-            <div className="text-xs sm:text-sm text-gray-500">
+            <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
               {t("dashboard.holdingsMoversNoProfitable")}
             </div>
           ) : (
@@ -130,15 +136,15 @@ export default function HoldingsMovers({
                   <div className="text-xs sm:text-sm min-w-0 flex-1">
                     <div className="truncate">
                       {g.name}{" "}
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         ({g.symbol.toUpperCase()})
                       </span>
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {g.amount} {t("common.units")}
                     </div>
                   </div>
-                  <div className="text-xs sm:text-sm text-green-600 shrink-0">
+                  <div className="text-xs sm:text-sm text-green-600 dark:text-green-400 shrink-0">
                     {g.profitUSD != null
                       ? `${g.profitUSD >= 0 ? "+" : "-"}${formatCurrency(
                           Math.abs(g.profitUSD),
@@ -146,7 +152,7 @@ export default function HoldingsMovers({
                         )}`
                       : "—"}
                     {g.profitPct != null ? (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {" "}
                         ({g.profitPct >= 0 ? "+" : ""}
                         {g.profitPct.toFixed(2)}%)
@@ -164,7 +170,7 @@ export default function HoldingsMovers({
             {t("dashboard.holdingsMoversTopLoss")}
           </div>
           {losers.length === 0 ? (
-            <div className="text-xs sm:text-sm text-gray-500">
+            <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
               {t("dashboard.holdingsMoversNoLosing")}
             </div>
           ) : (
@@ -177,15 +183,15 @@ export default function HoldingsMovers({
                   <div className="text-xs sm:text-sm min-w-0 flex-1">
                     <div className="truncate">
                       {g.name}{" "}
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         ({g.symbol.toUpperCase()})
                       </span>
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {g.amount} {t("common.units")}
                     </div>
                   </div>
-                  <div className="text-xs sm:text-sm text-red-600 shrink-0">
+                  <div className="text-xs sm:text-sm text-red-600 dark:text-red-400 shrink-0">
                     {g.profitUSD != null
                       ? `${g.profitUSD >= 0 ? "+" : "-"}${formatCurrency(
                           Math.abs(g.profitUSD),
@@ -193,7 +199,7 @@ export default function HoldingsMovers({
                         )}`
                       : "—"}
                     {g.profitPct != null ? (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {" "}
                         ({g.profitPct >= 0 ? "+" : ""}
                         {g.profitPct.toFixed(2)}%)

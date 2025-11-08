@@ -35,33 +35,39 @@ export default function HoldingsHistoryModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
-      <div className="relative w-full max-w-2xl bg-white rounded shadow-lg p-6 overflow-auto max-h-[80vh]">
+      <div className="relative w-full max-w-2xl bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded shadow-lg p-6 overflow-auto max-h-[80vh]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-medium">
             {filterCoinId ? t("modals.history.title") : t("modals.history.all")}
           </h3>
-          <button onClick={onClose} className="text-gray-500">
+          <button
+            onClick={onClose}
+            className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+          >
             ✕
           </button>
         </div>
 
         {items.length === 0 ? (
-          <div className="text-sm text-gray-600">
+          <div className="text-sm text-gray-600 dark:text-gray-400">
             {t("modals.history.none")}
           </div>
         ) : (
           <div className="space-y-3">
             {items.map((h) => (
-              <div key={h.id} className="border rounded p-3">
+              <div
+                key={h.id}
+                className="border dark:border-gray-600 rounded p-3 dark:bg-gray-700"
+              >
                 <div className="flex justify-between items-center">
                   <div className="font-medium">
                     {h.amount} {h.symbol.toUpperCase()} - {h.name}
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {new Date(h.buyDate).toLocaleString()}
                   </div>
                 </div>
-                <div className="text-sm text-gray-700">
+                <div className="text-sm text-gray-700 dark:text-gray-300">
                   {t("common.price")}{" "}
                   {formatCurrency(h.buyPrice, {
                     symbol: "$",
@@ -69,7 +75,9 @@ export default function HoldingsHistoryModal({
                   })}
                 </div>
                 {h.notes && (
-                  <div className="text-sm text-gray-600 mt-1">{h.notes}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    {h.notes}
+                  </div>
                 )}
               </div>
             ))}

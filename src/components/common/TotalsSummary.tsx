@@ -36,10 +36,12 @@ export default function TotalsSummary({
     formatCurrency(n, { locale, maximumFractionDigits: 0 });
 
   return (
-    <div className={`mb-4 p-3 sm:p-4 border rounded bg-white ${className}`}>
+    <div
+      className={`mb-4 p-3 sm:p-4 border rounded bg-white dark:bg-gray-800 dark:border-gray-700 ${className}`}
+    >
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-sm items-baseline">
         <div className="flex-1">
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-gray-500 dark:text-gray-400">
             {t("totals.totalHoldings")}
           </div>
           <div className="font-medium text-sm sm:text-base">
@@ -48,14 +50,18 @@ export default function TotalsSummary({
         </div>
 
         <div className="flex-1">
-          <div className="text-xs text-gray-500">{t("totals.totalValue")}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            {t("totals.totalValue")}
+          </div>
           <div className="font-medium text-sm sm:text-base">
             {loading ? "..." : fmt(currentValue)}
           </div>
         </div>
 
         <div className="flex-1">
-          <div className="text-xs text-gray-500">{t("totals.totalPL")}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            {t("totals.totalPL")}
+          </div>
           <div
             className={`font-medium text-sm sm:text-base ${
               profitLoss >= 0 ? "text-green-600" : "text-red-600"
