@@ -1,6 +1,7 @@
 import type { Holding } from "@/types/holding.types";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import formatCurrency from "@/utils/formatCurrency";
+import { useTranslation } from "@/lib/useTranslation";
 
 const COLORS = [
   "#8B5CF6", // Purple - crypto primary
@@ -23,6 +24,7 @@ export default function HoldingsAmountPie({
   holdings: Holding[];
   loading?: boolean;
 }) {
+  const { t } = useTranslation();
   // aggregate by coinId
   const map = new Map<
     string,
@@ -73,9 +75,11 @@ export default function HoldingsAmountPie({
     return (
       <div className="border border-border/50 rounded-2xl p-4 sm:p-6 h-64 sm:h-80 flex flex-col justify-center items-center bg-card/50 backdrop-blur-sm shadow-xl shadow-primary/5">
         <div className="font-semibold text-base sm:text-lg mb-2 bg-linear-to-r from-foreground to-foreground/70 bg-clip-text">
-          Adet Dağılımı
+          {t("dashboard.amountDistribution")}
         </div>
-        <div className="text-sm text-muted-foreground">No holdings</div>
+        <div className="text-sm text-muted-foreground">
+          {t("holdings.noHoldings")}
+        </div>
       </div>
     );
   }
@@ -86,7 +90,7 @@ export default function HoldingsAmountPie({
     <div className="border border-border/50 rounded-2xl p-4 sm:p-6 h-auto sm:h-96 bg-card/50 sm:backdrop-blur-sm shadow-xl shadow-primary/5 sm:hover:shadow-primary/10 sm:transition-all sm:duration-300 flex flex-col">
       <div className="font-semibold text-base sm:text-lg mb-4 bg-linear-to-r from-foreground to-foreground/70 bg-clip-text flex items-center gap-2">
         <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
-        Adet Dağılımı
+        {t("dashboard.amountDistribution")}
       </div>
 
       <div className="flex-1 flex flex-col lg:flex-row gap-4 sm:gap-6 items-center">
@@ -119,12 +123,21 @@ export default function HoldingsAmountPie({
               <Tooltip
                 formatter={(value: number) => value}
                 contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border) / 0.5)",
+                  backgroundColor: "hsl(var(--popover))",
+                  border: "1px solid hsl(var(--border))",
                   borderRadius: "0.75rem",
-                  boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                  boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.3)",
+                  padding: "8px 12px",
                 }}
-                labelStyle={{ color: "hsl(var(--foreground))" }}
+                labelStyle={{
+                  color: "hsl(var(--popover-foreground))",
+                  fontWeight: "600",
+                  marginBottom: "4px",
+                }}
+                itemStyle={{
+                  color: "hsl(var(--popover-foreground))",
+                  fontWeight: "500",
+                }}
               />
             </PieChart>
           </ResponsiveContainer>

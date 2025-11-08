@@ -63,7 +63,8 @@
     "credit": "Kredi",
     "buyPriceAvg": "Alış Fiyatı (ortalama):",
     "resetConfirm": "Tüm bakiyeyi sıfırlamak istiyor musunuz? Bu işlem geri alınamaz.",
-    "resetSuccess": "Bakiye başarıyla sıfırlandı!"
+    "resetSuccess": "Bakiye başarıyla sıfırlandı!",
+    "noHoldings": "Henüz varlık yok."
   },
   "totals": {
     "totalHoldings": "Tüm Varlıklar",
@@ -79,6 +80,8 @@
     "holdingsMoversTopLoss": "En Yüksek Zarar (USD)",
     "holdingsMoversNoProfitable": "Kâr eden varlık yok",
     "holdingsMoversNoLosing": "Zararda olan varlık yok",
+    "amountDistribution": "Adet Dağılımı",
+    "costDistribution": "Maliyet Dağılımı",
     "accountSnapshot": {
       "title": "Hesap Değeri",
       "currentSnapshot": "Anlık görüntü",

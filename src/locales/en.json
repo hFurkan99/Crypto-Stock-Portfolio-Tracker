@@ -63,7 +63,8 @@
     "credit": "Credit",
     "buyPriceAvg": "Buy Price (avg):",
     "resetConfirm": "Reset all balance? This action cannot be undone.",
-    "resetSuccess": "Balance reset successfully!"
+    "resetSuccess": "Balance reset successfully!",
+    "noHoldings": "No holdings yet."
   },
   "totals": {
     "totalHoldings": "Total Holdings",
@@ -79,6 +80,8 @@
     "holdingsMoversTopLoss": "Top Loss (USD)",
     "holdingsMoversNoProfitable": "No profitable holdings",
     "holdingsMoversNoLosing": "No losing holdings",
+    "amountDistribution": "Amount Distribution",
+    "costDistribution": "Cost Distribution",
     "accountSnapshot": {
       "title": "Account Value",
       "currentSnapshot": "Current snapshot",

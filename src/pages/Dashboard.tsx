@@ -185,7 +185,7 @@ export default function Dashboard() {
     <div className="p-2 sm:p-4 md:p-6">
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-foreground to-foreground/70 bg-clip-text">
-          Dashboard
+          {t("nav.dashboard")}
         </h1>
       </div>
 

@@ -176,7 +176,7 @@ export default function Holdings() {
         <div className="text-center py-12 border border-dashed border-border/50 rounded-2xl bg-card/30">
           <div className="text-4xl mb-4">📊</div>
           <div className="text-lg font-medium text-muted-foreground">
-            No holdings yet.
+            {t("holdings.noHoldings")}
           </div>
         </div>
       ) : pricesQuery.isLoading ? (
