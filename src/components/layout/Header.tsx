@@ -8,10 +8,11 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 
 export function NavigationMenuDemo() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, i18n, lang } = useTranslation();
 
   useEffect(() => {
@@ -33,46 +34,98 @@ export function NavigationMenuDemo() {
       setTheme("dark");
     }
   }
+
   return (
-    <NavigationMenu>
-      <NavigationMenuList className="flex-wrap">
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/">{t("nav.dashboard")}</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+    <div className="flex items-center justify-between">
+      {/* Desktop Navigation */}
+      <NavigationMenu className="hidden md:flex">
+        <NavigationMenuList className="flex-wrap">
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link to="/">{t("nav.dashboard")}</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/holdings">{t("nav.holdings")}</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link to="/holdings">{t("nav.holdings")}</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/watchlist">{t("nav.watchlist")}</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link to="/watchlist">{t("nav.watchlist")}</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
 
-        <div className="ml-4 flex items-center space-x-2">
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
-          <select
-            aria-label="Language"
-            defaultValue={lang}
-            onChange={(e) => i18n.changeLanguage(e.target.value)}
-            className="bg-transparent p-1 rounded border border-gray-200 dark:border-gray-700"
-          >
-            <option value="tr">{t("header.language.tr")}</option>
-            <option value="en">{t("header.language.en")}</option>
-          </select>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        className="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+        aria-label="Toggle menu"
+      >
+        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Theme and Language Controls */}
+      <div className="flex items-center space-x-2">
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+          aria-label="Toggle theme"
+        >
+          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+        <select
+          aria-label="Language"
+          defaultValue={lang}
+          onChange={(e) => i18n.changeLanguage(e.target.value)}
+          className="bg-transparent p-1 rounded border border-gray-200 dark:border-gray-700 text-sm"
+        >
+          <option value="tr">{t("header.language.tr")}</option>
+          <option value="en">{t("header.language.en")}</option>
+        </select>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-900 shadow-lg md:hidden z-50">
+          <nav className="flex flex-col p-4 space-y-2">
+            <Link
+              to="/"
+              className="p-3 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {t("nav.dashboard")}
+            </Link>
+            <Link
+              to="/holdings"
+              className="p-3 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {t("nav.holdings")}
+            </Link>
+            <Link
+              to="/watchlist"
+              className="p-3 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {t("nav.watchlist")}
+            </Link>
+          </nav>
         </div>
-      </NavigationMenuList>
-    </NavigationMenu>
+      )}
+    </div>
   );
 }

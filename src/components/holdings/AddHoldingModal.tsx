@@ -149,26 +149,29 @@ export default function AddHoldingModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
-      <div className="relative w-full max-w-md bg-white rounded shadow-lg p-6">
+      <div className="relative w-full max-w-md bg-white rounded shadow-lg p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-medium">
+          <h3 className="text-base sm:text-lg font-medium">
             {t("modals.addHolding.title")}
           </h3>
-          <button onClick={onClose} className="text-gray-500">
+          <button
+            onClick={onClose}
+            className="text-gray-500 text-xl sm:text-2xl"
+          >
             ✕
           </button>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-xs sm:text-sm font-medium mb-1">
               {t("modals.addHolding.search")}
             </label>
             <input
-              className="w-full border rounded px-3 py-2"
+              className="w-full border rounded px-3 py-2 text-sm sm:text-base"
               placeholder={t("modals.addHolding.searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -184,13 +187,15 @@ export default function AddHoldingModal({
                     }`}
                     onClick={() => handleSelect(c)}
                   >
-                    <div>
-                      <div className="font-medium">{c.name}</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-sm truncate">
+                        {c.name}
+                      </div>
                       <div className="text-xs text-muted-foreground">
                         {c.symbol}
                       </div>
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-xs sm:text-sm text-gray-500 shrink-0">
                       {t("common.select")}
                     </div>
                   </li>
@@ -200,10 +205,10 @@ export default function AddHoldingModal({
           </div>
 
           <div>
-            <div className="text-sm text-gray-700 mb-1">
+            <div className="text-xs sm:text-sm text-gray-700 mb-1">
               {t("common.selected")}
             </div>
-            <div className="px-3 py-2 border rounded">
+            <div className="px-3 py-2 border rounded text-sm">
               {selected
                 ? `${selected.name} (${selected.symbol})`
                 : t("common.none")}
@@ -211,27 +216,29 @@ export default function AddHoldingModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-xs sm:text-sm font-medium mb-1">
               {t("common.amount")}
             </label>
             <input
               type="number"
               step={1}
               min={1}
-              className="w-full border rounded px-3 py-2"
+              className="w-full border rounded px-3 py-2 text-sm sm:text-base"
               {...register("amount", { valueAsNumber: true })}
             />
             {errors.amount && (
-              <p className="text-red-600 text-sm">
+              <p className="text-red-600 text-xs sm:text-sm">
                 {String(errors.amount.message)}
               </p>
             )}
           </div>
 
           <div>
-            <div className="text-sm font-medium mb-2">{t("common.price")}</div>
+            <div className="text-xs sm:text-sm font-medium mb-2">
+              {t("common.price")}
+            </div>
             <div className="border rounded p-3">
-              <div className="text-sm">
+              <div className="text-xs sm:text-sm">
                 {t("modals.addHolding.unit")}:{" "}
                 {priceQuery?.isLoading
                   ? "..."
@@ -242,7 +249,7 @@ export default function AddHoldingModal({
                     })
                   : "—"}
               </div>
-              <div className="font-medium">
+              <div className="font-medium text-sm sm:text-base">
                 {t("common.total")}:
                 {formatCurrency(total, {
                   symbol: "$",
@@ -252,18 +259,18 @@ export default function AddHoldingModal({
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 mt-4">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded border"
+              className="px-4 py-2 rounded border text-sm sm:text-base"
             >
               {t("common.cancel")}
             </button>
             <button
               type="submit"
               disabled={isSubmitting || unitPrice == null || !selected}
-              className="px-4 py-2 rounded bg-blue-600 text-white"
+              className="px-4 py-2 rounded bg-blue-600 text-white text-sm sm:text-base disabled:opacity-50"
             >
               {t("modals.addHolding.add")}
             </button>

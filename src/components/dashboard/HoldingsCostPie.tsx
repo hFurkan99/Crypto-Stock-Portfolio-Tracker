@@ -66,25 +66,29 @@ export default function HoldingsCostPie({ holdings }: { holdings: Holding[] }) {
 
   if (data.length === 0) {
     return (
-      <div className="border rounded p-6 h-96 flex flex-col justify-center items-center">
-        <div className="font-medium text-lg mb-2">Maliyet Dağılımı</div>
-        <div className="text-sm text-gray-500">No holdings</div>
+      <div className="border rounded p-3 sm:p-6 h-64 sm:h-96 flex flex-col justify-center items-center">
+        <div className="font-medium text-base sm:text-lg mb-2">
+          Maliyet Dağılımı
+        </div>
+        <div className="text-xs sm:text-sm text-gray-500">No holdings</div>
       </div>
     );
   }
 
   return (
-    <div className="border rounded p-6 h-96 bg-white flex flex-col">
-      <div className="font-medium text-lg mb-4">Maliyet Dağılımı</div>
+    <div className="border rounded p-3 sm:p-6 h-auto sm:h-96 bg-white flex flex-col">
+      <div className="font-medium text-base sm:text-lg mb-3 sm:mb-4">
+        Maliyet Dağılımı
+      </div>
 
-      <div className="flex-1 flex gap-4 items-center">
-        <div className="flex-1" style={{ minHeight: 320 }}>
-          <ResponsiveContainer width="100%" height={320}>
+      <div className="flex-1 flex flex-col lg:flex-row gap-3 sm:gap-4 items-center">
+        <div className="w-full lg:flex-1" style={{ minHeight: 280 }}>
+          <ResponsiveContainer width="100%" height={280}>
             <PieChart>
               <Pie
                 dataKey="value"
                 data={data}
-                outerRadius={120}
+                outerRadius={100}
                 labelLine={false}
                 label={false}
               >
@@ -111,7 +115,7 @@ export default function HoldingsCostPie({ holdings }: { holdings: Holding[] }) {
           </ResponsiveContainer>
         </div>
 
-        <div className="w-56 md:w-64 lg:w-72 overflow-auto max-h-80">
+        <div className="w-full lg:w-56 xl:w-64 overflow-auto max-h-64 sm:max-h-80">
           <ul className="space-y-2 pr-2">
             {data.map((d, i) => {
               const pct = total > 0 ? (Number(d.value) / total) * 100 : 0;
@@ -120,9 +124,9 @@ export default function HoldingsCostPie({ holdings }: { holdings: Holding[] }) {
                   key={d.coinId}
                   className="flex items-center justify-between gap-2"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
                     <span
-                      className="inline-block w-3 h-3 rounded"
+                      className="inline-block w-3 h-3 rounded shrink-0"
                       style={{
                         background:
                           d.coinId === "other"
@@ -130,9 +134,9 @@ export default function HoldingsCostPie({ holdings }: { holdings: Holding[] }) {
                             : COLORS[i % COLORS.length],
                       }}
                     />
-                    <div className="text-sm">{d.name}</div>
+                    <div className="text-xs sm:text-sm truncate">{d.name}</div>
                   </div>
-                  <div className="text-sm text-gray-600 text-right">
+                  <div className="text-xs sm:text-sm text-gray-600 text-right shrink-0">
                     <div>
                       {formatCurrency(Number(d.value), {
                         symbol: "$",

@@ -100,58 +100,61 @@ export default function Holdings() {
   const { t } = useTranslation();
 
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">{t("holdings.title")}</h1>
-        <div className="flex items-center gap-3">
-          <div className="px-4 py-2 border rounded">
-            <div className="text-xs text-gray-500">{t("common.balance")}</div>
-            <div className="font-medium">
-              {formatCurrency(balance, {
-                symbol: "$",
-                maximumFractionDigits: 10,
-              })}
-            </div>
+    <div className="p-2 sm:p-4 md:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <h1 className="text-xl sm:text-2xl font-bold">{t("holdings.title")}</h1>
+
+        {/* Balance Display - Always visible on mobile */}
+        <div className="px-3 py-2 sm:px-4 sm:py-2 border rounded bg-white dark:bg-gray-800">
+          <div className="text-xs text-gray-500">{t("common.balance")}</div>
+          <div className="font-medium text-sm sm:text-base">
+            {formatCurrency(balance, {
+              symbol: "$",
+              maximumFractionDigits: 10,
+            })}
           </div>
-
-          <button
-            className="px-4 py-2 bg-gray-200 rounded"
-            onClick={() => handleShowHistory(null)}
-          >
-            {t("common.history")}
-          </button>
-
-          <button
-            className="px-4 py-2 bg-yellow-600 text-white rounded"
-            onClick={() => setCreditOpen(true)}
-          >
-            {t("modals.credit.title")}
-          </button>
-
-          <button
-            className="px-4 py-2 bg-red-600 text-white rounded"
-            onClick={() => {
-              if (window.confirm(t("holdings.resetConfirm"))) {
-                resetBalance();
-                showSuccess(
-                  t("holdings.resetSuccess") || "Balance reset successfully!"
-                );
-              }
-            }}
-          >
-            {t("holdings.withdraw_all")}
-          </button>
-
-          <button
-            className="px-4 py-2 bg-blue-600 text-white rounded"
-            onClick={() => {
-              setSelectedInitialCoin(null);
-              setAddOpen(true);
-            }}
-          >
-            {t("modals.addHolding.add")}
-          </button>
         </div>
+      </div>
+
+      {/* Action Buttons - Responsive Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:flex-wrap gap-2 mb-6">
+        <button
+          className="px-3 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+          onClick={() => {
+            if (window.confirm(t("holdings.resetConfirm"))) {
+              resetBalance();
+              showSuccess(
+                t("holdings.resetSuccess") || "Balance reset successfully!"
+              );
+            }
+          }}
+        >
+          <span className="hidden sm:inline">{t("holdings.withdrawAll")}</span>
+          <span className="sm:hidden">{t("holdings.withdrawAll")}</span>
+        </button>
+        <button
+          className="px-3 py-2 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700"
+          onClick={() => setCreditOpen(true)}
+        >
+          {t("modals.credit.title")}
+        </button>
+
+        <button
+          className="px-3 py-2 text-sm bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 col-span-2 sm:col-span-1"
+          onClick={() => handleShowHistory(null)}
+        >
+          {t("common.history")}
+        </button>
+
+        <button
+          className="px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 col-span-2 sm:col-span-1"
+          onClick={() => {
+            setSelectedInitialCoin(null);
+            setAddOpen(true);
+          }}
+        >
+          {t("modals.addHolding.add")}
+        </button>
       </div>
 
       {/* Totals summary */}

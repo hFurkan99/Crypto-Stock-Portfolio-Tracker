@@ -59,7 +59,7 @@
   },
   "holdings": {
     "title": "Varlıklar",
-    "withdraw_all": "Tüm Parayı Çek",
+    "withdrawAll": "Tüm Parayı Çek",
     "credit": "Kredi",
     "buyPriceAvg": "Alış Fiyatı (ortalama):",
     "resetConfirm": "Tüm bakiyeyi sıfırlamak istiyor musunuz? Bu işlem geri alınamaz.",

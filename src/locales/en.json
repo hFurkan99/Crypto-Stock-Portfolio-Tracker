@@ -59,7 +59,7 @@
   },
   "holdings": {
     "title": "Holdings",
-    "withdraw_all": "Withdraw All",
+    "withdrawAll": "Withdraw All",
     "credit": "Credit",
     "buyPriceAvg": "Buy Price (avg):",
     "resetConfirm": "Reset all balance? This action cannot be undone.",
@@ -88,6 +88,8 @@
     }
   },
   "common": {
+    "noData": "No data available",
+    "units": "units",
     "select": "Select",
     "selected": "Selected:",
     "none": "—",

@@ -35,25 +35,25 @@ export default function HoldingRow({
   const { name, symbol, totalAmount, avgBuyPrice } = grouped;
   const { t } = useTranslation();
   return (
-    <div className="border rounded p-3 flex items-center justify-between">
-      <div className="flex items-center gap-3">
+    <div className="border rounded p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
         {coinImage && (
           <img
             src={coinImage}
             alt={name}
-            className="w-8 h-8 rounded"
+            className="w-8 h-8 rounded shrink-0"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).style.display = "none";
             }}
           />
         )}
 
-        <div>
-          <div className="font-medium">
+        <div className="flex-1 min-w-0">
+          <div className="font-medium text-sm sm:text-base truncate">
             {totalAmount} {symbol.toUpperCase()} — {name}
           </div>
 
-          <div className="text-sm text-gray-600">
+          <div className="text-xs sm:text-sm text-gray-600 truncate">
             {t("holdings.buyPriceAvg")}{" "}
             {formatCurrency(avgBuyPrice, {
               symbol: "$",
@@ -61,7 +61,7 @@ export default function HoldingRow({
             })}
           </div>
 
-          <div className="text-sm text-gray-600 mt-1 flex gap-4">
+          <div className="text-xs sm:text-sm text-gray-600 mt-1 flex flex-wrap gap-2 sm:gap-4">
             <div>
               {t("common.current")}{" "}
               {currentPrice != null
@@ -105,26 +105,27 @@ export default function HoldingRow({
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 sm:shrink-0">
         <button
           onClick={onBuy}
-          className="px-3 py-1 rounded border text-sm bg-green-600 text-white"
+          className="flex-1 sm:flex-initial px-3 py-1 rounded border text-xs sm:text-sm bg-green-600 text-white hover:bg-green-700"
         >
           {t("common.buy")}
         </button>
 
         <button
           onClick={onSell}
-          className="px-3 py-1 rounded border text-sm bg-red-600 text-white"
+          className="flex-1 sm:flex-initial px-3 py-1 rounded border text-xs sm:text-sm bg-red-600 text-white hover:bg-red-700"
         >
           {t("common.sell")}
         </button>
 
         <button
           onClick={() => onShowHistory && onShowHistory(grouped.coinId)}
-          className="px-3 py-1 rounded border text-sm bg-gray-200"
+          className="flex-1 sm:flex-initial px-3 py-1 rounded border text-xs sm:text-sm bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600"
         >
-          {t("common.history")}
+          <span className="hidden sm:inline">{t("common.history")}</span>
+          <span className="sm:hidden">📊</span>
         </button>
       </div>
     </div>

@@ -14,16 +14,21 @@ export default function RecentPurchases({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="border rounded p-4">
+    <div className="border rounded p-3 sm:p-4">
       <div className="flex items-center justify-between mb-3">
-        <div className="font-medium">{t("common.recentPurchases")}</div>
-        <button onClick={() => onViewAll?.()} className="text-sm text-blue-600">
+        <div className="font-medium text-sm sm:text-base">
+          {t("common.recentPurchases")}
+        </div>
+        <button
+          onClick={() => onViewAll?.()}
+          className="text-xs sm:text-sm text-blue-600"
+        >
           {t("common.viewAll")}
         </button>
       </div>
 
       {recentPurchases.length === 0 ? (
-        <div className="text-sm text-gray-500">
+        <div className="text-xs sm:text-sm text-gray-500">
           {t("common.noRecentPurchases")}
         </div>
       ) : (
@@ -35,12 +40,15 @@ export default function RecentPurchases({
             const pl = current ? value - r.buyPrice * r.amount : 0;
             const plPct = r.buyPrice ? (pl / (r.buyPrice * r.amount)) * 100 : 0;
             return (
-              <div key={r.id} className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">
+              <div
+                key={r.id}
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="font-medium text-sm truncate">
                     {r.name} ({r.symbol.toUpperCase()})
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-xs sm:text-sm text-gray-600 truncate">
                     {r.amount} @{" "}
                     {formatCurrency(r.buyPrice, {
                       symbol: "$",
@@ -56,7 +64,7 @@ export default function RecentPurchases({
                   </div>
                 </div>
                 <div
-                  className={`text-sm ${
+                  className={`text-xs sm:text-sm shrink-0 ${
                     pl >= 0 ? "text-green-600" : "text-red-600"
                   }`}
                 >

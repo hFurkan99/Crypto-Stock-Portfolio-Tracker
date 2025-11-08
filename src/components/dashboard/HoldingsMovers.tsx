@@ -5,10 +5,12 @@ import { useTranslation } from "@/lib/useTranslation";
 
 export default function HoldingsMovers({
   period,
+  setPeriod,
   holdings,
   pricesData,
 }: {
   period: "1d" | "7d" | "30d";
+  setPeriod: (p: "1d" | "7d" | "30d") => void;
   holdings: Holding[];
   pricesData?: CoinPrice[] | null;
 }) {
@@ -76,20 +78,46 @@ export default function HoldingsMovers({
     .slice(0, 5);
 
   return (
-    <div className="border rounded p-4">
-      <div className="flex items-center justify-between mb-3">
-        <div className="font-medium">
+    <div className="border rounded p-3 sm:p-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+        <div className="font-medium text-sm sm:text-base">
           {t("dashboard.holdingsMovers")} ({period})
+        </div>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <button
+            onClick={() => setPeriod("1d")}
+            className={`px-2 py-1 rounded text-xs sm:text-sm ${
+              period === "1d" ? "bg-gray-200" : ""
+            }`}
+          >
+            1d
+          </button>
+          <button
+            onClick={() => setPeriod("7d")}
+            className={`px-2 py-1 rounded text-xs sm:text-sm ${
+              period === "7d" ? "bg-gray-200" : ""
+            }`}
+          >
+            7d
+          </button>
+          <button
+            onClick={() => setPeriod("30d")}
+            className={`px-2 py-1 rounded text-xs sm:text-sm ${
+              period === "30d" ? "bg-gray-200" : ""
+            }`}
+          >
+            30d
+          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div>
-          <div className="font-medium text-sm mb-2">
+          <div className="font-medium text-xs sm:text-sm mb-2">
             {t("dashboard.holdingsMoversTopProfit")}
           </div>
           {gainers.length === 0 ? (
-            <div className="text-sm text-gray-500">
+            <div className="text-xs sm:text-sm text-gray-500">
               {t("dashboard.holdingsMoversNoProfitable")}
             </div>
           ) : (
@@ -97,18 +125,20 @@ export default function HoldingsMovers({
               {gainers.map((g) => (
                 <li
                   key={g.coinId}
-                  className="flex items-center justify-between"
+                  className="flex items-center justify-between gap-2"
                 >
-                  <div className="text-sm">
-                    {g.name}{" "}
-                    <span className="text-xs text-gray-500">
-                      ({g.symbol.toUpperCase()})
-                    </span>
+                  <div className="text-xs sm:text-sm min-w-0 flex-1">
+                    <div className="truncate">
+                      {g.name}{" "}
+                      <span className="text-xs text-gray-500">
+                        ({g.symbol.toUpperCase()})
+                      </span>
+                    </div>
                     <div className="text-xs text-gray-500">
                       {g.amount} {t("common.units")}
                     </div>
                   </div>
-                  <div className="text-sm text-green-600">
+                  <div className="text-xs sm:text-sm text-green-600 shrink-0">
                     {g.profitUSD != null
                       ? `${g.profitUSD >= 0 ? "+" : "-"}${formatCurrency(
                           Math.abs(g.profitUSD),
@@ -130,11 +160,11 @@ export default function HoldingsMovers({
         </div>
 
         <div>
-          <div className="font-medium text-sm mb-2">
+          <div className="font-medium text-xs sm:text-sm mb-2">
             {t("dashboard.holdingsMoversTopLoss")}
           </div>
           {losers.length === 0 ? (
-            <div className="text-sm text-gray-500">
+            <div className="text-xs sm:text-sm text-gray-500">
               {t("dashboard.holdingsMoversNoLosing")}
             </div>
           ) : (
@@ -142,18 +172,20 @@ export default function HoldingsMovers({
               {losers.map((g) => (
                 <li
                   key={g.coinId}
-                  className="flex items-center justify-between"
+                  className="flex items-center justify-between gap-2"
                 >
-                  <div className="text-sm">
-                    {g.name}{" "}
-                    <span className="text-xs text-gray-500">
-                      ({g.symbol.toUpperCase()})
-                    </span>
+                  <div className="text-xs sm:text-sm min-w-0 flex-1">
+                    <div className="truncate">
+                      {g.name}{" "}
+                      <span className="text-xs text-gray-500">
+                        ({g.symbol.toUpperCase()})
+                      </span>
+                    </div>
                     <div className="text-xs text-gray-500">
                       {g.amount} {t("common.units")}
                     </div>
                   </div>
-                  <div className="text-sm text-red-600">
+                  <div className="text-xs sm:text-sm text-red-600 shrink-0">
                     {g.profitUSD != null
                       ? `${g.profitUSD >= 0 ? "+" : "-"}${formatCurrency(
                           Math.abs(g.profitUSD),

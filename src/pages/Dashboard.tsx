@@ -64,7 +64,9 @@ export default function Dashboard() {
       .slice(0, 2);
   }, [holdings]);
 
-  const [period, setPeriod] = useState<Period>("7d");
+  const [topMoversPeriod, setTopMoversPeriod] = useState<Period>("7d");
+  const [holdingsMoversPeriod, setHoldingsMoversPeriod] =
+    useState<Period>("7d");
   const [historyOpen, setHistoryOpen] = useState(false);
 
   // chart removed: xTickFormatter no longer required
@@ -87,9 +89,9 @@ export default function Dashboard() {
     }> = [];
     for (const p of markets) {
       let change = 0;
-      if (period === "1d") {
+      if (topMoversPeriod === "1d") {
         change = p.price_change_percentage_24h ?? 0;
-      } else if (period === "7d") {
+      } else if (topMoversPeriod === "7d") {
         // Prefer the API-provided 7d percentage (if available), otherwise fall back to sparkline calculation
         change =
           p.price_change_percentage_7d_in_currency ??
@@ -122,7 +124,7 @@ export default function Dashboard() {
     // sort ascending to get losers first
     items.sort((a, b) => a.change - b.change);
     return items.slice(0, 5);
-  }, [pricesQuery.data, marketsQuery.data, period]);
+  }, [pricesQuery.data, marketsQuery.data, topMoversPeriod]);
 
   // top gainers (mirror of losers, highest positive change)
   const topGainers = useMemo(() => {
@@ -142,9 +144,9 @@ export default function Dashboard() {
     }> = [];
     for (const p of markets) {
       let change = 0;
-      if (period === "1d") {
+      if (topMoversPeriod === "1d") {
         change = p.price_change_percentage_24h ?? 0;
-      } else if (period === "7d") {
+      } else if (topMoversPeriod === "7d") {
         // Prefer API-provided 7d percentage (if available), otherwise fall back to sparkline calculation
         change =
           p.price_change_percentage_7d_in_currency ??
@@ -177,15 +179,15 @@ export default function Dashboard() {
     // sort descending to get top gainers first
     items.sort((a, b) => b.change - a.change);
     return items.slice(0, 5);
-  }, [pricesQuery.data, marketsQuery.data, period]);
+  }, [pricesQuery.data, marketsQuery.data, topMoversPeriod]);
 
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+    <div className="p-2 sm:p-4 md:p-6">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h1 className="text-xl sm:text-2xl font-bold">Dashboard</h1>
       </div>
 
-      <div className="mb-4 flex items-center justify-between gap-4">
+      <div className="mb-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
         <TotalsSummary
           totalHoldings={totals.totalHoldings}
           currentValue={totals.currentValue}
@@ -195,11 +197,11 @@ export default function Dashboard() {
           className="flex-1"
         />
 
-        <div className="w-56 p-4 border rounded bg-white text-center">
+        <div className="w-full sm:w-56 p-3 sm:p-4 border rounded bg-white text-center">
           <div className="text-xs text-gray-500">
             {t("dashboard.accountSnapshot.cashBalance")}
           </div>
-          <div className="mt-1 text-xl font-semibold">
+          <div className="mt-1 text-lg sm:text-xl font-semibold">
             {formatCurrency(balance, {
               symbol: "$",
               maximumFractionDigits: 10,
@@ -208,34 +210,35 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
         <AccountSnapshot
           holdingsValue={totals.currentValue}
           cashBalance={balance}
         />
 
         <TopMovers
-          period={period}
-          setPeriod={setPeriod}
+          period={topMoversPeriod}
+          setPeriod={setTopMoversPeriod}
           topGainers={topGainers}
           topLosers={topLosers}
         />
       </div>
 
-      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="mt-4 sm:mt-6 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
         <RecentPurchases
           recentPurchases={recentPurchases}
           pricesData={pricesQuery.data}
           onViewAll={() => setHistoryOpen(true)}
         />
         <HoldingsMovers
-          period={period}
+          period={holdingsMoversPeriod}
+          setPeriod={setHoldingsMoversPeriod}
           holdings={holdings}
           pricesData={pricesQuery.data}
         />
       </div>
 
-      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="mt-4 sm:mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <div className="col-span-1">
           <HoldingsAmountPie holdings={holdings} />
         </div>
