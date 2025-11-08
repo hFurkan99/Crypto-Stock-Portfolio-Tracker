@@ -8,6 +8,7 @@ import { useCoinSearch, useCoinPrice } from "@/hooks/useCoins";
 import formatCurrency from "@/utils/formatCurrency";
 import { useTranslation } from "@/lib/useTranslation";
 import { showError, showSuccess } from "@/lib/toast";
+import ConfirmModal from "@/components/common/ConfirmModal";
 
 // schema moved inside component so validation messages can be localized with t()
 
@@ -41,6 +42,10 @@ export default function AddHoldingModal({
     symbol: string;
   } | null>(null);
   const [unitPrice, setUnitPrice] = useState<number | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingData, setPendingData] = useState<z.infer<typeof schema> | null>(
+    null
+  );
 
   const [debouncedQuery, setDebouncedQuery] = useState<string>("");
 
@@ -124,6 +129,22 @@ export default function AddHoldingModal({
   const onSubmit = (data: z.infer<typeof schema>) => {
     if (unitPrice == null) return;
     const cost = unitPrice * data.amount;
+
+    // Check balance before opening confirmation
+    if (useBalanceStore.getState().balance < cost) {
+      showError(t("modals.addHolding.insufficientBalance"));
+      return;
+    }
+
+    // Store data and open confirmation modal
+    setPendingData(data);
+    setConfirmOpen(true);
+  };
+
+  const confirmBuy = () => {
+    if (!pendingData || unitPrice == null) return;
+
+    const cost = unitPrice * pendingData.amount;
     const success = useBalanceStore.getState().withdraw(cost);
     if (!success) {
       showError(t("modals.addHolding.insufficientBalance"));
@@ -131,10 +152,10 @@ export default function AddHoldingModal({
     }
 
     addHolding({
-      coinId: data.coinId,
-      symbol: data.symbol,
-      name: data.name,
-      amount: data.amount,
+      coinId: pendingData.coinId,
+      symbol: pendingData.symbol,
+      name: pendingData.name,
+      amount: pendingData.amount,
       buyPrice: unitPrice,
       buyDate: new Date().toISOString(),
       notes: undefined,
@@ -149,136 +170,166 @@ export default function AddHoldingModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fadeIn">
+      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
 
-      <div className="relative w-full max-w-md bg-white dark:bg-gray-800 dark:border dark:border-gray-700 rounded shadow-lg p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-base sm:text-lg font-medium">
+      <div className="relative w-full max-w-md bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl shadow-primary/20 overflow-hidden max-h-[90vh] flex flex-col animate-fadeIn">
+        {/* Decorative gradient */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-primary/20 to-accent/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        {/* Fixed Header */}
+        <div className="relative z-10 flex items-center justify-between px-6 sm:px-8 py-4 border-b border-border/30 bg-card/95 backdrop-blur-xl shrink-0">
+          <h3 className="text-xl sm:text-2xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
             {t("modals.addHolding.title")}
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-500 dark:text-gray-400 text-xl sm:text-2xl hover:text-gray-700 dark:hover:text-gray-200"
+            className="p-2 rounded-lg hover:bg-muted/50 transition-all active:scale-95 text-muted-foreground hover:text-foreground shrink-0 ml-4"
           >
-            ✕
+            <span className="text-xl font-light">✕</span>
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1 dark:text-gray-300">
-              {t("modals.addHolding.search")}
-            </label>
-            <input
-              className="w-full border dark:border-gray-600 rounded px-3 py-2 text-sm sm:text-base dark:bg-gray-700 dark:text-white"
-              placeholder={t("modals.addHolding.searchPlaceholder")}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
+        {/* Scrollable Content */}
+        <div className="relative z-10 overflow-y-auto flex-1">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="px-6 sm:px-8 py-6 space-y-5"
+          >
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-foreground/90">
+                {t("modals.addHolding.search")}
+              </label>
+              <input
+                className="w-full border border-border/50 rounded-xl px-4 py-3 text-base bg-card/50 backdrop-blur-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                placeholder={t("modals.addHolding.searchPlaceholder")}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
 
-            {results.length > 0 && (
-              <ul className="max-h-40 overflow-auto mt-2 border dark:border-gray-600 rounded dark:bg-gray-700">
-                {results.map((c) => (
-                  <li
-                    key={c.id}
-                    className={`px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 flex justify-between items-center ${
-                      selected?.id === c.id
-                        ? "bg-gray-100 dark:bg-gray-600"
-                        : ""
-                    }`}
-                    onClick={() => handleSelect(c)}
-                  >
-                    <div className="min-w-0 flex-1">
-                      <div className="font-medium text-sm truncate">
-                        {c.name}
+              {results.length > 0 && (
+                <ul className="max-h-48 overflow-auto mt-3 border border-border/50 rounded-xl bg-card/50 backdrop-blur-sm shadow-lg">
+                  {results.map((c) => (
+                    <li
+                      key={c.id}
+                      className={`px-4 py-3 cursor-pointer hover:bg-primary/10 transition-all flex justify-between items-center border-b border-border/30 last:border-0 ${
+                        selected?.id === c.id ? "bg-primary/10" : ""
+                      }`}
+                      onClick={() => handleSelect(c)}
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="font-semibold text-sm truncate">
+                          {c.name}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {c.symbol}
+                        </div>
                       </div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">
-                        {c.symbol}
+                      <div className="text-xs font-medium text-primary shrink-0 px-3 py-1 bg-primary/10 rounded-lg">
+                        {t("common.select")}
                       </div>
-                    </div>
-                    <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 shrink-0">
-                      {t("common.select")}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-
-          <div>
-            <div className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-1">
-              {t("common.selected")}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-            <div className="px-3 py-2 border dark:border-gray-600 rounded text-sm dark:bg-gray-700">
-              {selected
-                ? `${selected.name} (${selected.symbol})`
-                : t("common.none")}
-            </div>
-          </div>
 
-          <div>
-            <label className="block text-xs sm:text-sm font-medium mb-1 dark:text-gray-300">
-              {t("common.amount")}
-            </label>
-            <input
-              type="number"
-              step={1}
-              min={1}
-              className="w-full border dark:border-gray-600 rounded px-3 py-2 text-sm sm:text-base dark:bg-gray-700 dark:text-white"
-              {...register("amount", { valueAsNumber: true })}
-            />
-            {errors.amount && (
-              <p className="text-red-600 dark:text-red-400 text-xs sm:text-sm">
-                {String(errors.amount.message)}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <div className="text-xs sm:text-sm font-medium mb-2 dark:text-gray-300">
-              {t("common.price")}
+            <div>
+              <div className="text-sm font-semibold mb-2 text-foreground/90">
+                {t("common.selected")}
+              </div>
+              <div className="px-4 py-3 border border-border/50 rounded-xl text-sm bg-muted/30 font-medium">
+                {selected
+                  ? `${selected.name} (${selected.symbol})`
+                  : t("common.none")}
+              </div>
             </div>
-            <div className="border dark:border-gray-600 rounded p-3 dark:bg-gray-700">
-              <div className="text-xs sm:text-sm dark:text-gray-300">
-                {t("modals.addHolding.unit")}:{" "}
-                {priceQuery?.isLoading
-                  ? "..."
-                  : unitPrice != null
-                  ? formatCurrency(unitPrice, {
+
+            <div>
+              <label className="block text-sm font-semibold mb-2 text-foreground/90">
+                {t("common.amount")}
+              </label>
+              <input
+                type="number"
+                step={1}
+                min={1}
+                className="w-full border border-border/50 rounded-xl px-4 py-3 text-base bg-card/50 backdrop-blur-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                {...register("amount", { valueAsNumber: true })}
+              />
+              {errors.amount && (
+                <p className="text-red-600 dark:text-red-400 text-xs mt-2 font-medium">
+                  {String(errors.amount.message)}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <div className="text-sm font-semibold mb-3 text-foreground/90">
+                {t("common.price")}
+              </div>
+              <div className="border border-border/50 rounded-xl p-4 bg-linear-to-br from-primary/5 to-accent/5 space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">
+                    {t("modals.addHolding.unit")}:
+                  </span>
+                  <span className="font-bold text-foreground">
+                    {priceQuery?.isLoading
+                      ? "..."
+                      : unitPrice != null
+                      ? formatCurrency(unitPrice, {
+                          symbol: "$",
+                          maximumFractionDigits: 10,
+                        })
+                      : "—"}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-base pt-2 border-t border-border/30">
+                  <span className="font-semibold">{t("common.total")}:</span>
+                  <span className="font-bold text-lg bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
+                    {formatCurrency(total, {
                       symbol: "$",
                       maximumFractionDigits: 10,
-                    })
-                  : "—"}
-              </div>
-              <div className="font-medium text-sm sm:text-base">
-                {t("common.total")}:
-                {formatCurrency(total, {
-                  symbol: "$",
-                  maximumFractionDigits: 10,
-                })}
+                    })}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 rounded border dark:border-gray-600 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              {t("common.cancel")}
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting || unitPrice == null || !selected}
-              className="px-4 py-2 rounded bg-blue-600 text-white text-sm sm:text-base disabled:opacity-50 hover:bg-blue-700"
-            >
-              {t("modals.addHolding.add")}
-            </button>
-          </div>
-        </form>
+            {/* Footer moved inside form for proper submission */}
+            <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-border/30">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-3 rounded-xl border border-border/50 text-base font-semibold hover:bg-muted/50 transition-all duration-300 active:scale-95"
+              >
+                {t("common.cancel")}
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting || unitPrice == null || !selected}
+                className="px-6 py-3 rounded-xl bg-linear-to-br from-primary to-accent text-primary-foreground text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:from-primary/90 hover:to-accent/90 shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all duration-300 active:scale-95 border border-primary/20"
+              >
+                {t("modals.addHolding.add")}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={confirmBuy}
+        title={t("modals.addHolding.buy")}
+        message={`${pendingData?.amount} ${
+          pendingData?.symbol
+        } satın almak istediğinizden emin misiniz? (${formatCurrency(total, {
+          symbol: "$",
+          maximumFractionDigits: 2,
+        })})`}
+        confirmText={t("modals.addHolding.buy")}
+        variant="success"
+      />
     </div>
   );
 }

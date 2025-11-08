@@ -31,7 +31,8 @@ export function useCoinPrice(coinId: string | null) {
       return p;
     },
     enabled: !!coinId,
-    staleTime: 1000 * 15, // short-lived price
+    staleTime: 1000 * 60, // 1 dakika - modal'larda kullanılıyor
+    refetchOnWindowFocus: false,
   });
 }
 
@@ -47,7 +48,9 @@ export function useCoinsPrices(coinIds: string[]) {
       return data;
     },
     enabled: coinIds.length > 0,
-    staleTime: 1000 * 15,
+    staleTime: 1000 * 60 * 2, // 2 dakika - daha az API çağrısı
+    gcTime: 1000 * 60 * 5, // Cache'i 5 dakika tut
+    refetchOnWindowFocus: false, // Mobilde gereksiz refetch'i engelle
   });
 }
 
@@ -62,7 +65,9 @@ export function useTopMarkets(limit = 100, page = 1) {
       return data;
     },
     enabled: true,
-    staleTime: 1000 * 15,
+    staleTime: 1000 * 60 * 5, // 5 dakika - top markets sık değişmez
+    gcTime: 1000 * 60 * 10,
+    refetchOnWindowFocus: false,
   });
 }
 

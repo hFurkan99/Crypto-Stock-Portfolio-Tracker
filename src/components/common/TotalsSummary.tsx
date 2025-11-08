@@ -37,41 +37,64 @@ export default function TotalsSummary({
 
   return (
     <div
-      className={`mb-4 p-3 sm:p-4 border rounded bg-white dark:bg-gray-800 dark:border-gray-700 ${className}`}
+      className={`p-4 sm:p-6 border border-border/50 rounded-2xl bg-linear-to-br from-card/80 to-card/40 backdrop-blur-sm shadow-2xl shadow-primary/10 hover:shadow-primary/20 transition-all duration-300 relative overflow-hidden ${className}`}
     >
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-sm items-baseline">
-        <div className="flex-1">
-          <div className="text-xs text-gray-500 dark:text-gray-400">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-primary/10 to-accent/10 rounded-full blur-3xl"></div>
+      <div className="relative z-10 flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm">
+        <div className="flex-1 space-y-2">
+          <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
             {t("totals.totalHoldings")}
           </div>
-          <div className="font-medium text-sm sm:text-base">
+          <div className="font-bold text-xl sm:text-2xl bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
             {loading ? "..." : fmtNumber(totalHoldings)}
           </div>
         </div>
 
-        <div className="flex-1">
-          <div className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="flex-1 space-y-2">
+          <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-2">
+            <div
+              className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"
+              style={{ animationDelay: "0.2s" }}
+            ></div>
             {t("totals.totalValue")}
           </div>
-          <div className="font-medium text-sm sm:text-base">
+          <div className="font-bold text-xl sm:text-2xl bg-linear-to-r from-accent to-primary bg-clip-text text-transparent">
             {loading ? "..." : fmt(currentValue)}
           </div>
         </div>
 
-        <div className="flex-1">
-          <div className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="flex-1 space-y-2">
+          <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-2">
+            <div
+              className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                profitLoss >= 0 ? "bg-green-500" : "bg-red-500"
+              }`}
+              style={{ animationDelay: "0.4s" }}
+            ></div>
             {t("totals.totalPL")}
           </div>
           <div
-            className={`font-medium text-sm sm:text-base ${
-              profitLoss >= 0 ? "text-green-600" : "text-red-600"
+            className={`font-bold text-xl sm:text-2xl ${
+              profitLoss >= 0
+                ? "text-green-600 dark:text-green-400"
+                : "text-red-600 dark:text-red-400"
             }`}
           >
-            {loading
-              ? "..."
-              : `${profitLoss >= 0 ? "+" : "-"}${fmt(Math.abs(profitLoss))} (${
-                  profitLossPct >= 0 ? "+" : "-"
-                }${Math.abs(profitLossPct).toFixed(2)}%)`}
+            {loading ? (
+              "..."
+            ) : (
+              <div className="flex flex-col gap-1">
+                <span>
+                  {profitLoss >= 0 ? "+" : ""}
+                  {fmt(profitLoss)}
+                </span>
+                <span className="text-sm font-medium opacity-80">
+                  ({profitLossPct >= 0 ? "+" : ""}
+                  {profitLossPct.toFixed(2)}%)
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -48,39 +48,41 @@ export default function Watchlist() {
   };
 
   return (
-    <div className="p-2 sm:p-4 md:p-6">
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold">{t("nav.watchlist")}</h1>
+    <div className="p-2 sm:p-4 md:p-6 animate-fadeIn">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-foreground to-foreground/70 bg-clip-text">
+          {t("nav.watchlist")}
+        </h1>
       </div>
 
-      <div className="mb-4">
-        <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">
+      <div className="mb-6 p-6 border border-border/50 rounded-2xl bg-card/50 backdrop-blur-sm shadow-xl shadow-primary/5">
+        <label className="block text-sm font-semibold mb-3 text-foreground/90">
           {t("modals.addHolding.search")}
         </label>
         <input
-          className="w-full border rounded px-3 py-2 text-sm sm:text-base dark:bg-gray-800 dark:border-gray-600"
+          className="w-full border border-border/50 rounded-xl px-4 py-3 text-base bg-card/50 backdrop-blur-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/20 outline-none transition-all"
           placeholder={t("modals.addHolding.searchPlaceholder")}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
 
         {searchQuery.data && searchQuery.data.length > 0 && (
-          <ul className="mt-2 border rounded max-h-48 overflow-auto dark:border-gray-600">
+          <ul className="mt-3 border border-border/50 rounded-xl max-h-60 overflow-auto bg-card/50 backdrop-blur-sm shadow-lg">
             {searchQuery.data.map((c) => (
               <li
                 key={c.id}
-                className="px-3 py-2 flex justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+                className="px-4 py-3 flex justify-between items-center hover:bg-primary/10 cursor-pointer transition-all border-b border-border/30 last:border-0"
                 onClick={() => handleSelectAdd(c)}
               >
                 <div>
-                  <div className="font-medium text-sm sm:text-base">
+                  <div className="font-semibold text-sm sm:text-base">
                     {c.name}
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                  <div className="text-xs text-muted-foreground">
                     {c.symbol.toUpperCase()}
                   </div>
                 </div>
-                <div className="text-xs sm:text-sm text-blue-600 dark:text-blue-400">
+                <div className="text-xs font-medium text-primary px-3 py-1 bg-primary/10 rounded-lg">
                   {t("modals.addHolding.add")}
                 </div>
               </li>
@@ -89,10 +91,22 @@ export default function Watchlist() {
         )}
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {watchlist.length === 0 ? (
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            {t("watchlist.noCoins")}
+          <div className="text-center py-12 border border-dashed border-border/50 rounded-2xl bg-card/30">
+            <div className="text-4xl mb-4">👁️</div>
+            <div className="text-lg font-medium text-muted-foreground">
+              {t("watchlist.noCoins")}
+            </div>
+          </div>
+        ) : pricesQuery.isLoading ? (
+          <div className="text-center py-12 border border-border/50 rounded-2xl bg-card/50 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-primary/10 border border-primary/20">
+              <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-sm font-medium text-foreground">
+                {t("common.loading") || "Yükleniyor..."}
+              </span>
+            </div>
           </div>
         ) : pricesQuery.data && pricesQuery.data.length > 0 ? (
           pricesQuery.data.map((p) => {
@@ -100,46 +114,63 @@ export default function Watchlist() {
             return (
               <div
                 key={item.id}
-                className="border dark:border-gray-700 rounded p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 dark:bg-gray-800/30"
+                className="border border-border/50 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-card/50 backdrop-blur-sm shadow-lg shadow-primary/5 hover:shadow-primary/10 hover:border-primary/30 transition-all duration-300 group"
               >
-                <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div className="flex items-center gap-4 flex-1 min-w-0">
                   {p.image && (
-                    <img
-                      src={p.image}
-                      alt={item.name}
-                      className="w-8 h-8 rounded shrink-0"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display =
-                          "none";
-                      }}
-                    />
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:blur-lg transition-all"></div>
+                      <img
+                        src={p.image}
+                        alt={item.name}
+                        className="w-12 h-12 rounded-full shrink-0 relative z-10 ring-2 ring-border/50 group-hover:ring-primary/50 transition-all"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display =
+                            "none";
+                        }}
+                      />
+                    </div>
                   )}
 
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium text-sm sm:text-base truncate">
-                      {item.name} ({item.symbol.toUpperCase()})
+                  <div className="flex-1 min-w-0 space-y-2">
+                    <div className="font-bold text-base sm:text-lg truncate">
+                      {item.name}{" "}
+                      <span className="text-muted-foreground font-medium text-sm">
+                        ({item.symbol.toUpperCase()})
+                      </span>
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      {t("common.price")}{" "}
-                      {formatCurrency(p.current_price, {
-                        symbol: "$",
-                        maximumFractionDigits: 10,
-                      })}
-                    </div>
-                    <div className="text-xs sm:text-sm mt-1">
-                      {t("common.change24h")}{" "}
-                      {p.price_change_percentage_24h != null
-                        ? `${
-                            p.price_change_percentage_24h >= 0 ? "+" : ""
-                          }${p.price_change_percentage_24h.toFixed(2)}%`
-                        : "—"}
+                    <div className="flex items-center gap-3 text-sm">
+                      <div className="px-2 py-1 bg-muted/30 rounded-md border border-border/30">
+                        {t("common.price")}{" "}
+                        <span className="font-bold text-foreground">
+                          {formatCurrency(p.current_price, {
+                            symbol: "$",
+                            maximumFractionDigits: 10,
+                          })}
+                        </span>
+                      </div>
+                      <div
+                        className={`px-2 py-1 rounded-md border font-semibold ${
+                          p.price_change_percentage_24h != null &&
+                          p.price_change_percentage_24h >= 0
+                            ? "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20"
+                            : "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20"
+                        }`}
+                      >
+                        {t("common.change24h")}{" "}
+                        {p.price_change_percentage_24h != null
+                          ? `${
+                              p.price_change_percentage_24h >= 0 ? "+" : ""
+                            }${p.price_change_percentage_24h.toFixed(2)}%`
+                          : "—"}
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 sm:shrink-0">
                   <button
-                    className="flex-1 sm:flex-initial px-3 py-1 rounded bg-green-600 text-white text-xs sm:text-sm hover:bg-green-700"
+                    className="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-sm font-semibold bg-linear-to-br from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 shadow-lg shadow-green-600/30 hover:shadow-green-600/50 transition-all duration-300 active:scale-95 border border-green-500/20"
                     onClick={() =>
                       openBuyModal({ id: p.id, name: p.name, symbol: p.symbol })
                     }
@@ -147,7 +178,7 @@ export default function Watchlist() {
                     {t("common.buy")}
                   </button>
                   <button
-                    className="flex-1 sm:flex-initial px-3 py-1 rounded border dark:border-gray-600 text-xs sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                    className="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-sm font-semibold bg-card/80 backdrop-blur-sm hover:bg-muted/50 border border-border/50 hover:border-red-500/30 hover:text-red-600 dark:hover:text-red-400 shadow-lg shadow-primary/5 hover:shadow-red-500/10 transition-all duration-300 active:scale-95"
                     onClick={() => removeFromWatchlist(item.id)}
                   >
                     {t("common.remove")}
@@ -157,24 +188,26 @@ export default function Watchlist() {
             );
           })
         ) : (
-          // prices not yet loaded: show simple list
           watchlist.map((w) => (
             <div
               key={w.id}
-              className="border dark:border-gray-700 rounded p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 dark:bg-gray-800/30"
+              className="border border-border/50 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-card/50 backdrop-blur-sm shadow-lg shadow-primary/5"
             >
-              <div className="flex-1 min-w-0">
-                <div className="font-medium text-sm truncate">
-                  {w.name} ({w.symbol.toUpperCase()})
+              <div className="flex-1 min-w-0 space-y-2">
+                <div className="font-bold text-base truncate">
+                  {w.name}{" "}
+                  <span className="text-muted-foreground font-medium text-sm">
+                    ({w.symbol.toUpperCase()})
+                  </span>
                 </div>
-                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <div className="text-sm text-muted-foreground">
                   {t("common.price")} ...
                 </div>
               </div>
 
               <div className="flex items-center gap-2 sm:shrink-0">
                 <button
-                  className="flex-1 sm:flex-initial px-3 py-1 rounded bg-green-600 text-white text-xs sm:text-sm hover:bg-green-700"
+                  className="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-sm font-semibold bg-linear-to-br from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 shadow-lg shadow-green-600/30 hover:shadow-green-600/50 transition-all duration-300 active:scale-95 border border-green-500/20"
                   onClick={() =>
                     openBuyModal({
                       id: w.coinId,
@@ -186,7 +219,7 @@ export default function Watchlist() {
                   {t("common.buy")}
                 </button>
                 <button
-                  className="flex-1 sm:flex-initial px-3 py-1 rounded border dark:border-gray-600 text-xs sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="flex-1 sm:flex-initial px-4 py-2 rounded-lg text-sm font-semibold bg-card/80 backdrop-blur-sm hover:bg-muted/50 border border-border/50 hover:border-red-500/30 hover:text-red-600 dark:hover:text-red-400 shadow-lg shadow-primary/5 hover:shadow-red-500/10 transition-all duration-300 active:scale-95"
                   onClick={() => removeFromWatchlist(w.id)}
                 >
                   {t("common.remove")}

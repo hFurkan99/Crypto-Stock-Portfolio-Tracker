@@ -28,7 +28,7 @@ export default function Dashboard() {
   }, [holdings]);
 
   const pricesQuery = useCoinsPrices(coinIds);
-  const marketsQuery = useTopMarkets(100);
+  const marketsQuery = useTopMarkets(50); // 100'den 50'ye düşürdük - mobilde daha hızlı
 
   // totals (reuse logic similar to holdings page)
   const totals = useMemo(() => {
@@ -64,9 +64,9 @@ export default function Dashboard() {
       .slice(0, 2);
   }, [holdings]);
 
-  const [topMoversPeriod, setTopMoversPeriod] = useState<Period>("7d");
+  const [topMoversPeriod, setTopMoversPeriod] = useState<Period>("1d"); // 7d yerine 1d - daha hızlı
   const [holdingsMoversPeriod, setHoldingsMoversPeriod] =
-    useState<Period>("7d");
+    useState<Period>("1d"); // 7d yerine 1d - daha hızlı
   const [historyOpen, setHistoryOpen] = useState(false);
 
   // chart removed: xTickFormatter no longer required
@@ -184,7 +184,9 @@ export default function Dashboard() {
   return (
     <div className="p-2 sm:p-4 md:p-6">
       <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-foreground to-foreground/70 bg-clip-text">
+          Dashboard
+        </h1>
       </div>
 
       <div className="mb-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
@@ -197,15 +199,19 @@ export default function Dashboard() {
           className="flex-1"
         />
 
-        <div className="w-full sm:w-56 p-3 sm:p-4 border rounded bg-white dark:bg-gray-800 dark:border-gray-700 text-center">
-          <div className="text-xs text-gray-500 dark:text-gray-400">
-            {t("dashboard.accountSnapshot.cashBalance")}
-          </div>
-          <div className="mt-1 text-lg sm:text-xl font-semibold">
-            {formatCurrency(balance, {
-              symbol: "$",
-              maximumFractionDigits: 10,
-            })}
+        <div className="w-full sm:w-64 p-4 sm:p-6 border border-border/50 rounded-2xl bg-linear-to-br from-card/80 to-accent/5 backdrop-blur-sm shadow-xl shadow-accent/10 hover:shadow-accent/20 transition-all duration-300 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-accent/20 rounded-full blur-2xl group-hover:w-32 group-hover:h-32 transition-all duration-500"></div>
+          <div className="relative z-10 space-y-2">
+            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></div>
+              {t("dashboard.accountSnapshot.cashBalance")}
+            </div>
+            <div className="text-2xl sm:text-3xl font-bold bg-linear-to-r from-accent to-primary bg-clip-text text-transparent">
+              {formatCurrency(balance, {
+                symbol: "$",
+                maximumFractionDigits: 10,
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -216,19 +222,19 @@ export default function Dashboard() {
           cashBalance={balance}
         />
 
+        <RecentPurchases
+          recentPurchases={recentPurchases}
+          pricesData={pricesQuery.data}
+          onViewAll={() => setHistoryOpen(true)}
+        />
+      </div>
+
+      <div className="mt-4 sm:mt-6 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
         <TopMovers
           period={topMoversPeriod}
           setPeriod={setTopMoversPeriod}
           topGainers={topGainers}
           topLosers={topLosers}
-        />
-      </div>
-
-      <div className="mt-4 sm:mt-6 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-        <RecentPurchases
-          recentPurchases={recentPurchases}
-          pricesData={pricesQuery.data}
-          onViewAll={() => setHistoryOpen(true)}
         />
         <HoldingsMovers
           period={holdingsMoversPeriod}

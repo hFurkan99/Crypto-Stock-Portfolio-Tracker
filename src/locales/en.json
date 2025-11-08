@@ -80,7 +80,7 @@
     "holdingsMoversNoProfitable": "No profitable holdings",
     "holdingsMoversNoLosing": "No losing holdings",
     "accountSnapshot": {
-      "title": "Account Value (holdings + cash)",
+      "title": "Account Value",
       "currentSnapshot": "Current snapshot",
       "holdingsValue": "Holdings Value",
       "cashBalance": "Cash Balance",
@@ -97,6 +97,7 @@
     "price": "Price",
     "total": "Total",
     "cancel": "Cancel",
+    "confirm": "Confirm",
     "balance": "Balance",
     "recentPurchases": "Recent Purchases",
     "viewAll": "View all",
@@ -108,6 +109,7 @@
     "pl": "P/L:",
     "buy": "Buy",
     "sell": "Sell",
-    "history": "History"
+    "history": "History",
+    "loading": "Loading..."
   }
 }

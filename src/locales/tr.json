@@ -77,10 +77,10 @@
     "holdingsMovers": "Varlık Hareketleri",
     "holdingsMoversTopProfit": "En Yüksek Kâr (USD)",
     "holdingsMoversTopLoss": "En Yüksek Zarar (USD)",
-    "holdingsMoversNoProfitable": "Kâr eden pozisyon yok",
-    "holdingsMoversNoLosing": "Zararda olan pozisyon yok",
+    "holdingsMoversNoProfitable": "Kâr eden varlık yok",
+    "holdingsMoversNoLosing": "Zararda olan varlık yok",
     "accountSnapshot": {
-      "title": "Hesap Değeri (varlıklar + bakiye)",
+      "title": "Hesap Değeri",
       "currentSnapshot": "Anlık görüntü",
       "holdingsValue": "Varlık Değeri",
       "cashBalance": "Bakiye",
@@ -97,6 +97,7 @@
     "price": "Fiyat",
     "total": "Toplam",
     "cancel": "İptal",
+    "confirm": "Onayla",
     "balance": "Bakiye",
     "recentPurchases": "Son Alımlar",
     "viewAll": "Tümünü Gör",
@@ -108,6 +109,7 @@
     "pl": "K/Z:",
     "buy": "Satın Al",
     "sell": "Sat",
-    "history": "Geçmiş"
+    "history": "Geçmiş",
+    "loading": "Yükleniyor..."
   }
 }

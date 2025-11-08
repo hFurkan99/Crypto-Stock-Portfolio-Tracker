@@ -84,9 +84,9 @@ export const coingeckoApi = {
     if (coinIds.length === 0) return [];
 
     const ids = coinIds.join(",");
-    // Request additional percentage change fields (7d and 30d) where available
+    // Mobil için optimize: sadece gerekli alanları iste
     return fetchApi<CoinPrice[]>(
-      `/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&sparkline=true&price_change_percentage=24h,7d,30d`
+      `/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&sparkline=false&price_change_percentage=24h`
     );
   },
 
@@ -94,9 +94,9 @@ export const coingeckoApi = {
    * Get top markets (by market cap). Pass limit (per_page) and page.
    */
   getTopMarkets: async (limit = 100, page = 1): Promise<CoinPrice[]> => {
-    // Request 7d and 30d percentage change values in addition to 24h
+    // Dashboard için optimize: sparkline'ı kaldır, sadece 24h değişimi al
     return fetchApi<CoinPrice[]>(
-      `/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=${page}&sparkline=true&price_change_percentage=24h,7d,30d`
+      `/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=${page}&sparkline=false&price_change_percentage=24h`
     );
   },
 
