@@ -32,14 +32,38 @@ const buildUrl = (endpoint: string): string => {
 
 const fetchApi = async <T = unknown>(endpoint: string): Promise<T> => {
   const url = buildUrl(endpoint);
-  const response = await fetch(url);
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`CoinGecko API Error (${response.status}): ${errorText}`);
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      let errorMessage = `CoinGecko API Error (${response.status})`;
+
+      try {
+        const errorData = await response.json();
+        if (errorData.error) {
+          errorMessage = `CoinGecko API: ${errorData.error}`;
+        } else if (errorData.status?.error_message) {
+          errorMessage = `CoinGecko API: ${errorData.status.error_message}`;
+        }
+      } catch {
+        // If JSON parsing fails, use text
+        const errorText = await response.text();
+        if (errorText) {
+          errorMessage = `CoinGecko API: ${errorText}`;
+        }
+      }
+
+      throw new Error(errorMessage);
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error("Network error: Failed to fetch data from CoinGecko");
   }
-
-  return response.json();
 };
 
 export const coingeckoApi = {
@@ -60,8 +84,19 @@ export const coingeckoApi = {
     if (coinIds.length === 0) return [];
 
     const ids = coinIds.join(",");
+    // Request additional percentage change fields (7d and 30d) where available
     return fetchApi<CoinPrice[]>(
-      `/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&sparkline=true&price_change_percentage=24h`
+      `/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&sparkline=true&price_change_percentage=24h,7d,30d`
+    );
+  },
+
+  /**
+   * Get top markets (by market cap). Pass limit (per_page) and page.
+   */
+  getTopMarkets: async (limit = 100, page = 1): Promise<CoinPrice[]> => {
+    // Request 7d and 30d percentage change values in addition to 24h
+    return fetchApi<CoinPrice[]>(
+      `/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=${page}&sparkline=true&price_change_percentage=24h,7d,30d`
     );
   },
 
@@ -70,8 +105,20 @@ export const coingeckoApi = {
    */
   getCoinPrice: async (coinId: string): Promise<CoinPrice> => {
     const data = await fetchApi<CoinPrice[]>(
-      `/coins/markets?vs_currency=usd&ids=${coinId}&sparkline=true&price_change_percentage=24h`
+      `/coins/markets?vs_currency=usd&ids=${coinId}&sparkline=true&price_change_percentage=24h,7d,30d`
     );
     return data[0];
+  },
+
+  /**
+   * Get market chart for a single coin. Returns the raw market_chart JSON.
+   * days: 1,7,30 etc.
+   */
+  getMarketChart: async (coinId: string, days = 7) => {
+    return fetchApi<{ prices: [number, number][] }>(
+      `/coins/${encodeURIComponent(
+        coinId
+      )}/market_chart?vs_currency=usd&days=${days}`
+    );
   },
 };

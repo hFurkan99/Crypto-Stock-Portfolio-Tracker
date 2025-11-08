@@ -1,0 +1,111 @@
+{
+  "header": {
+    "title": "Crypto Stock Portfolio",
+    "language": {
+      "en": "English",
+      "tr": "Türkçe"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "holdings": "Holdings",
+    "watchlist": "Watchlist",
+    "Holdings": "Holdings"
+  },
+  "watchlist": {
+    "noCoins": "No coins in watchlist"
+  },
+  "validation": {
+    "selectCoin": "Please select a coin",
+    "amountPositive": "Amount must be a positive integer",
+    "enterAmount": "Enter an amount greater than 0",
+    "amountExceeds": "Amount exceeds total holdings"
+  },
+  "modals": {
+    "addHolding": {
+      "insufficientBalance": "Insufficient balance. Please add funds or pull credit.",
+      "title": "Add New Holding",
+      "search": "Search Coin",
+      "searchPlaceholder": "bitcoin, ethereum...",
+      "unit": "Unit",
+      "add": "Add Holding",
+      "buy": "Buy",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "success": "Holding added successfully!"
+    },
+    "sellHolding": {
+      "title": "Sell Holding",
+      "sell": "Sell",
+      "totalOwned": "Total owned",
+      "amountToSell": "Amount to sell",
+      "setToTotal": "Sell All",
+      "setToTotalTitle": "Set to total amount",
+      "confirm": "Confirm Sell",
+      "success": "Holding sold successfully!"
+    },
+    "credit": {
+      "title": "Credit",
+      "amountLabel": "Amount (USD)",
+      "add": "Add",
+      "success": "Balance added successfully!",
+      "invalidAmount": "Please enter a valid amount"
+    },
+    "history": {
+      "title": "Purchase History",
+      "all": "All Purchase History",
+      "none": "No history found"
+    }
+  },
+  "holdings": {
+    "title": "Holdings",
+    "withdraw_all": "Withdraw All",
+    "credit": "Credit",
+    "buyPriceAvg": "Buy Price (avg):",
+    "resetConfirm": "Reset all balance? This action cannot be undone.",
+    "resetSuccess": "Balance reset successfully!"
+  },
+  "totals": {
+    "totalHoldings": "Total Holdings",
+    "totalValue": "Total Value",
+    "totalPL": "Total P/L"
+  },
+  "dashboard": {
+    "topMovers": "Top Movers",
+    "topGainers": "Top Gainers",
+    "topLosers": "Top Losers",
+    "holdingsMovers": "Holdings Movers",
+    "holdingsMoversTopProfit": "Top Profit (USD)",
+    "holdingsMoversTopLoss": "Top Loss (USD)",
+    "holdingsMoversNoProfitable": "No profitable holdings",
+    "holdingsMoversNoLosing": "No losing holdings",
+    "accountSnapshot": {
+      "title": "Account Value (holdings + cash)",
+      "currentSnapshot": "Current snapshot",
+      "holdingsValue": "Holdings Value",
+      "cashBalance": "Cash Balance",
+      "totalAccount": "Total Account"
+    }
+  },
+  "common": {
+    "select": "Select",
+    "selected": "Selected:",
+    "none": "—",
+    "amount": "Amount",
+    "price": "Price",
+    "total": "Total",
+    "cancel": "Cancel",
+    "balance": "Balance",
+    "recentPurchases": "Recent Purchases",
+    "viewAll": "View all",
+    "noRecentPurchases": "No recent purchases",
+    "now": "Now",
+    "remove": "Remove",
+    "current": "Current:",
+    "change24h": "24h:",
+    "pl": "P/L:",
+    "buy": "Buy",
+    "sell": "Sell",
+    "history": "History"
+  }
+}

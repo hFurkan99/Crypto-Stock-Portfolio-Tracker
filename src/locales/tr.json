@@ -1,0 +1,113 @@
+{
+  "header": {
+    "title": "Kripto Hisse Portföyü",
+    "language": {
+      "en": "English",
+      "tr": "Türkçe"
+    }
+  },
+  "nav": {
+    "dashboard": "Pano",
+    "recentPurchases": "Son Alımlar",
+    "watchlist": "İzleme Listesi",
+    "holdings": "Varlıklar"
+  },
+  "watchlist": {
+    "noCoins": "İzleme listesinde coin yok"
+  },
+  "validation": {
+    "selectCoin": "Lütfen bir coin seçin",
+    "amountPositive": "Miktar pozitif bir tam sayı olmalıdır",
+    "enterAmount": "0'dan büyük bir tutar girin",
+    "amountExceeds": "Miktar toplam bakiyeyi aşıyor"
+  },
+  "modals": {
+    "addHolding": {
+      "insufficientBalance": "Yetersiz bakiye. Lütfen bakiye ekleyin veya kredi çekin.",
+      "title": "Varlık Ekle",
+      "search": "Coin Ara",
+      "searchPlaceholder": "bitcoin, ethereum...",
+      "unit": "Birim",
+      "add": "Varlık Ekle",
+      "buy": "Satın Al",
+      "cancel": "İptal",
+      "confirm": "Onayla",
+      "success": "Varlık başarıyla eklendi!"
+    },
+    "sellHolding": {
+      "title": "Varlık Sat",
+      "sell": "Sat",
+      "totalOwned": "Toplam sahip olunan",
+      "amountToSell": "Satılacak miktar",
+      "setToTotal": "Tümü Sat",
+      "setToTotalTitle": "Toplam miktarı ayarla",
+      "confirm": "Satışı Onayla",
+      "success": "Varlık başarıyla satıldı!"
+    },
+    "credit": {
+      "title": "Kredi Çek",
+      "amountLabel": "Tutar (USD)",
+      "add": "Ekle",
+      "success": "Bakiye başarıyla eklendi!",
+      "invalidAmount": "Lütfen geçerli bir tutar girin"
+    },
+    "history": {
+      "title": "Satın Alma Geçmişi",
+      "all": "Tüm Satın Alma Geçmişi",
+      "none": "Geçmiş bulunamadı"
+    }
+  },
+  "holdings": {
+    "title": "Varlıklar",
+    "withdraw_all": "Tüm Parayı Çek",
+    "credit": "Kredi",
+    "buyPriceAvg": "Alış Fiyatı (ortalama):",
+    "resetConfirm": "Tüm bakiyeyi sıfırlamak istiyor musunuz? Bu işlem geri alınamaz.",
+    "resetSuccess": "Bakiye başarıyla sıfırlandı!"
+  },
+  "totals": {
+    "totalHoldings": "Tüm Varlıklar",
+    "totalValue": "Toplam Değer",
+    "totalPL": "Toplam K/Z"
+  },
+  "dashboard": {
+    "topMovers": "En Çok Hareket Edenler",
+    "topGainers": "En Çok Kazananlar",
+    "topLosers": "En Çok Kaybedenler",
+    "holdingsMovers": "Varlık Hareketleri",
+    "holdingsMoversTopProfit": "En Yüksek Kâr (USD)",
+    "holdingsMoversTopLoss": "En Yüksek Zarar (USD)",
+    "holdingsMoversNoProfitable": "Kâr eden pozisyon yok",
+    "holdingsMoversNoLosing": "Zararda olan pozisyon yok",
+    "accountSnapshot": {
+      "title": "Hesap Değeri (varlıklar + bakiye)",
+      "currentSnapshot": "Anlık görüntü",
+      "holdingsValue": "Varlık Değeri",
+      "cashBalance": "Bakiye",
+      "totalAccount": "Toplam Hesap"
+    }
+  },
+  "common": {
+    "noData": "Veri yok",
+    "units": "adet",
+    "select": "Seç",
+    "selected": "Seçili:",
+    "none": "—",
+    "amount": "Miktar",
+    "price": "Fiyat",
+    "total": "Toplam",
+    "cancel": "İptal",
+    "balance": "Bakiye",
+    "recentPurchases": "Son Alımlar",
+    "viewAll": "Tümünü Gör",
+    "noRecentPurchases": "Son alım bulunamadı",
+    "now": "Şimdi",
+    "remove": "Kaldır",
+    "current": "Mevcut:",
+    "change24h": "24s:",
+    "pl": "K/Z:",
+    "buy": "Satın Al",
+    "sell": "Sat",
+    "history": "Geçmiş"
+  }
+}
